@@ -1722,10 +1722,10 @@ main {
    Apple Premium Light Mode Styles
    ========================================================================== */
 body.light-mode {
-    --bg-canvas: #EAEFF3;
+    --bg-canvas: #d4d1c9;
     --bg-card: #FFFFFF;
     --bg-card-hover: #FFFFFF;
-    --bg-glass: rgba(234, 239, 243, 0.7);
+    --bg-glass: rgba(212, 209, 201, 0.7);
     --border-subtle: rgba(50, 96, 128, 0.06);
     --border-focus: rgba(50, 96, 128, 0.16);
     
