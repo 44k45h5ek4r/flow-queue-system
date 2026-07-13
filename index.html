@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow — Reimagining the Queue</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Premium System Header -->
+    <header>
+        <div class="brand-section">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+            <span class="brand-name">Flow</span>
+        </div>
+
+        <div class="system-controls">
+            <!-- Dynamic Simulation Slider -->
+            <div class="sim-slider-container">
+                <span class="sim-label">Simulation Speed</span>
+                <input type="range" class="sim-slider" id="sim-speed-slider" min="0" max="15" value="1">
+                <span class="sim-value" id="sim-value-lbl">1x</span>
+            </div>
+
+            <!-- Sound Synthesis Toggle -->
+            <button class="sound-toggle-btn" id="sound-toggle" title="Toggle audio feedback">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                    <path d="M9.707 12.243a5.48 5.48 0 0 0 1.618-3.898 5.48 5.48 0 0 0-1.618-3.898l-.708.708A4.48 4.48 0 0 1 10.325 8c0 1.24-.504 2.366-1.325 3.19z"/>
+                    <path d="M4 4a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .854.354L7.146 9.5H9.5a.5.5 0 0 0 .5-.5V7a.5.5 0 0 0-.5-.5H7.146L4.354 3.146A.5.5 0 0 0 4 4"/>
+                </svg>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button class="sound-toggle-btn" id="theme-toggle" title="Toggle color theme">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zM4.464 11.536a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.464a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Application Canvas -->
+    <main>
+        <div class="workspace-container">
+
+            <!-- 1. Operations Workspace -->
+            <section class="workspace-view active" id="view-operations">
+                <div class="ops-grid">
+                    <!-- Left Primary Pane -->
+                    <div class="ops-main-pane">
+                        <!-- Attention Deck -->
+                        <div class="attention-deck" id="ops-attention-deck">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+
+                        <!-- Active Counters Panel -->
+                        <div class="ops-counters-section">
+                            <div class="section-header">
+                                <span class="section-title">Active Stations</span>
+                                <span class="section-action" onclick="flowSys.simulateAddCounter()">+ Add Node</span>
+                            </div>
+                            <div class="counters-grid" id="ops-counters-grid">
+                                <!-- Populated dynamically via app.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Timeline Pulse Pane -->
+                    <div class="timeline-pane">
+                        <div class="timeline-header">
+                            <span class="section-title">Queue Status</span>
+                            <span class="timeline-count-badge" id="ops-timeline-badge">0 clients</span>
+                        </div>
+                        <div class="timeline-list" id="ops-timeline-list">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Staff Console Workspace -->
+            <section class="workspace-view" id="view-staff">
+                <div class="staff-layout">
+                    <!-- Satisfying Trigger Center -->
+                    <div class="staff-control-panel">
+                        <div class="counter-picker" id="staff-counter-picker">
+                            <button class="counter-picker-btn active" data-counter-id="1" onclick="flowSys.selectCounter(1)">C1</button>
+                            <button class="counter-picker-btn" data-counter-id="2" onclick="flowSys.selectCounter(2)">C2</button>
+                            <button class="counter-picker-btn" data-counter-id="3" onclick="flowSys.selectCounter(3)">C3</button>
+                            <button class="counter-picker-btn" data-counter-id="4" onclick="flowSys.selectCounter(4)">C4</button>
+                        </div>
+
+                        <div class="shutter-outer" id="staff-next-btn" onclick="flowSys.callNextClient(flowSys.selectedCounterId)">
+                            <div class="shutter-middle">
+                                <div class="shutter-inner">
+                                    <svg class="shutter-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                    <span class="shutter-text">Next Client</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="keyboard-hint">Tap Spacebar to cycle</div>
+                    </div>
+
+                    <!-- Action Details Panel -->
+                    <div class="staff-info-panel">
+                        <div class="staff-panel-header">
+                            <div class="staff-status-sub" id="staff-console-sub">Triage • Nurse Rachel Miller</div>
+                            <div class="staff-status-title" id="staff-console-title">Counter 1</div>
+                        </div>
+
+                        <div class="staff-active-client" id="staff-active-client-details">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+
+                        <!-- Hotkey Cheat Sheet -->
+                        <div class="staff-keyboard-shortcuts">
+                            <div class="staff-keyboard-shortcuts-title">Muscle Memory Bindings</div>
+                            <div class="shortcuts-list">
+                                <div class="shortcut-item">
+                                    <span>Call Next Client</span>
+                                    <span class="shortcut-key">Space</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <span>Begin Service</span>
+                                    <span class="shortcut-key">↵ Enter</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <span>Complete Client</span>
+                                    <span class="shortcut-key">D</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <span>Recall Client</span>
+                                    <span class="shortcut-key">R</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Customer Mobile Experience Simulator -->
+            <section class="workspace-view" id="view-customer">
+                <div class="mobile-view-wrapper">
+                    <!-- Ticket Scanner Selector -->
+                    <div style="position: absolute; left: 40px; top: 40px; display:flex; flex-direction:column; gap: var(--spacing-sm);">
+                        <span class="sim-label">Scanned Client Simulator</span>
+                        <div class="mobile-selector-container">
+                            <span class="mobile-selector-lbl">Ticket Scanned:</span>
+                            <select class="mobile-select" id="mobile-ticket-select">
+                                <!-- Populated dynamically via app.js -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- iPhone Mockup Shell -->
+                    <div class="iphone-frame">
+                        <!-- Apple Dynamic Island -->
+                        <div class="dynamic-island" id="mobile-island">
+                            <div class="island-content">
+                                <div class="island-indicator"></div>
+                                <span class="island-text" id="island-text-lbl">ACTIVE FLOW</span>
+                            </div>
+                        </div>
+
+                        <!-- Active simulated screen -->
+                        <div class="iphone-screen">
+                            <div class="mobile-header">
+                                <span class="mobile-brand">Flow</span>
+                                <div class="mobile-wifi-battery">
+                                    <span>5G</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+
+                            <!-- Scanned ticket metric widgets -->
+                            <div id="mobile-interaction-card" style="display:flex; flex-direction:column; gap: var(--spacing-md); flex:1;">
+                                <!-- Rendered dynamically in app.js -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Storytelling Insights -->
+            <section class="workspace-view" id="view-insights">
+                <div class="insights-layout">
+                    <div class="insights-summary-hero">
+                        <div class="insights-hero-title">Actionable Stories</div>
+                        <div class="insights-hero-desc">
+                            Forget cluttered charts. Flow tracks micro-movements, employee processing velocity, and arrival patterns to output clean, natural language advice to streamline operations.
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Insights -->
+                    <div class="insights-grid" id="insights-cards-grid">
+                        <!-- Populated dynamically via app.js -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Floating Dock Center Navigation -->
+    <div class="dock-container">
+        <nav class="dock">
+            <div class="dock-item active" data-view="operations" title="Operations Workspace">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="9" rx="1"/>
+                    <rect x="14" y="3" width="7" height="5" rx="1"/>
+                    <rect x="14" y="12" width="7" height="9" rx="1"/>
+                    <rect x="3" y="16" width="7" height="5" rx="1"/>
+                </svg>
+                <div class="dock-tooltip">Operations</div>
+            </div>
+
+            <div class="dock-item" data-view="staff" title="Staff Workspace">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                </svg>
+                <div class="dock-tooltip">Staff</div>
+            </div>
+
+            <div class="dock-item" data-view="customer" title="Customer Experience">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="5" y="2" width="14" height="20" rx="4"/>
+                    <line x1="12" y1="18" x2="12" y2="18.01" stroke-linecap="round"/>
+                </svg>
+                <div class="dock-tooltip">Customer</div>
+            </div>
+
+            <div class="dock-item" data-view="insights" title="Actionable Insights">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                </svg>
+                <div class="dock-tooltip">Insights</div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Apple-style Command Palette (Ctrl+K) -->
+    <div class="palette-overlay" id="command-palette">
+        <div class="palette-modal">
+            <div class="palette-search-wrapper">
+                <svg class="palette-search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" class="palette-input" id="palette-input-field" placeholder="Search commands or active client tickets...">
+                <span class="palette-esc-hint">ESC</span>
+            </div>
+            
+            <div class="palette-results" id="palette-results-list">
+                <!-- Built dynamically via app.js -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
