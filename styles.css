@@ -1550,7 +1550,7 @@ main {
 }
 
 .dock:hover {
-    transform: translateX(-50%) scale(1.02);
+    transform: scale(1.02);
 }
 
 .dock-item {
@@ -1567,10 +1567,17 @@ main {
     position: relative;
 }
 
+.dock-item svg {
+    transition: transform var(--transition-spring);
+}
+
 .dock-item:hover {
     color: var(--text-primary);
-    transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.05);
+}
+
+.dock-item:hover svg {
+    transform: translateY(-6px) scale(1.12);
 }
 
 .dock-item.active {
