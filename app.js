@@ -131,7 +131,7 @@ class FlowQueueSystem {
         
         // Configuration
         this.simSpeed = 1; // 0 (paused), 1, 5, 15, 30
-        this.ticketIndex = 100;
+        this.ticketIndex = 106;
         this.averageProcessTime = 8.5; // minutes
         this.targetWaitTime = 15; // minutes threshold
         
@@ -245,7 +245,26 @@ class FlowQueueSystem {
     generateRandomCheckin() {
         this.ticketIndex++;
         const nextId = `FL-${this.ticketIndex}`;
-        const name = this.namesPool[Math.floor(Math.random() * this.namesPool.length)];
+        
+        // Find names in the names pool that are NOT currently in the active queue
+        const activeNames = this.clients
+            .filter(c => c.status !== "completed")
+            .map(c => c.name);
+            
+        let availableNames = this.namesPool.filter(name => !activeNames.includes(name));
+        
+        // Fallback if all names in the pool are currently active
+        if (availableNames.length === 0) {
+            availableNames = this.namesPool;
+        }
+        
+        let name = availableNames[Math.floor(Math.random() * availableNames.length)];
+        
+        // If we had to fallback, append a random last name to make it unique
+        if (activeNames.includes(name)) {
+            const extraLastName = ["Smith", "Jones", "Doe", "Adams", "Taylor", "Miller"][Math.floor(Math.random() * 6)];
+            name = name.split(" ")[0] + " " + extraLastName;
+        }
         
         const newClient = {
             id: nextId,
@@ -643,7 +662,9 @@ class FlowQueueSystem {
         // Render Pulse Live Timeline
         const timelineList = document.getElementById("ops-timeline-list");
         const timelineBadge = document.getElementById("ops-timeline-badge");
-        const waitingClients = this.clients.filter(c => c.status === "waiting" || c.status === "called");
+        const waitingClients = this.clients
+            .filter(c => c.status === "waiting" || c.status === "called")
+            .sort((a, b) => b.waitDuration - a.waitDuration);
         
         if (timelineBadge) {
             timelineBadge.innerText = `${waitingClients.length} clients`;
