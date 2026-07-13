@@ -1636,6 +1636,88 @@ main {
     }
 }
 
+@media(max-width: 480px) {
+    header {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+    
+    .sim-slider-container {
+        display: none !important;
+    }
+    
+    main {
+        padding: 0 var(--spacing-md) var(--spacing-md) var(--spacing-md);
+    }
+
+    .iphone-frame {
+        width: 100%;
+        height: auto;
+        min-height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+    
+    .mobile-view-wrapper {
+        padding: 0;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mobile-view-wrapper > div[style*="position: absolute"] {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100%;
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .mobile-selector-container {
+        width: 100%;
+    }
+
+    .iphone-screen {
+        padding: var(--spacing-sm) 0;
+        overflow-y: visible;
+        background: transparent;
+    }
+    
+    body.light-mode .iphone-screen {
+        background: transparent;
+    }
+
+    .dynamic-island {
+        display: none !important;
+    }
+
+    .ops-grid {
+        gap: var(--spacing-md);
+    }
+    
+    .counter-card {
+        padding: var(--spacing-md);
+    }
+    
+    .dock-container {
+        bottom: var(--spacing-md);
+    }
+    
+    .dock {
+        padding: 6px;
+    }
+    
+    .dock-item {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 /* ==========================================================================
    Apple Premium Light Mode Styles
    ========================================================================== */
